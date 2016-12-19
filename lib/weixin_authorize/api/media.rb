@@ -88,7 +88,7 @@ module WeixinAuthorize
         end
 
         def process_file(media)
-          return media if media.is_a?(File) && jpep?(media)
+          return media if media.is_a?(File) #&& jpep?(media)
 
           media_url = media
           uploader  = WeixinUploader.new
@@ -99,7 +99,7 @@ module WeixinAuthorize
             media_file = media.is_a?(File) ? media : File.new(media_url)
             uploader.cache!(media_file)
           end
-          file = process_media(uploader)
+          file = uploader.file.to_file #process_media(uploader)
           CarrierWave.clean_cached_files! # clear last one day cache
           file
         end
